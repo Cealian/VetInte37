@@ -92,6 +92,7 @@ namespace Forms {
 			this->txtLösen->Name = L"txtLösen";
 			this->txtLösen->Size = System::Drawing::Size(232, 20);
 			this->txtLösen->TabIndex = 1;
+			this->txtLösen->UseSystemPasswordChar = true;
 			// 
 			// cbTyp
 			// 
@@ -176,21 +177,29 @@ namespace Forms {
 				String ^ personnummer = txtPersonnummer->Text;
 				String ^ lösen = txtLösen->Text;
 
-				
-				_cmd->CommandText = "SELECT * FROM [dbo].[personal] WHERE personnummer=@personnummer AND lösen = @lösen";
-				_cmd->Parameters->Add(gcnew SqlParameter( "@personnummer", SqlDbType::Char));
-				_cmd->Parameters->Add(gcnew SqlParameter( "@lösen", SqlDbType::Char));
-				_cmd->Parameters["@personnummer"]->Value=personnummer;
-				_cmd->Parameters["@lösen"]->Value=lösen;
-				DbDataReader ^ reader = _cmd->ExecuteReader();
+				DbDataReader ^ reader;
 
 				if (cbTyp->SelectedItem->ToString() == "Personal")
 				{
-					MessageBox::Show("Personal");
+					_cmd->CommandText = "SELECT * FROM [dbo].[personal] WHERE personnummer=@personnummer AND lösen = @lösen";
+					_cmd->Parameters->Add(gcnew SqlParameter( "@personnummer", SqlDbType::Char));
+					_cmd->Parameters->Add(gcnew SqlParameter( "@lösen", SqlDbType::Char));
+					_cmd->Parameters["@personnummer"]->Value=personnummer;
+					_cmd->Parameters["@lösen"]->Value=lösen;
+					reader = _cmd->ExecuteReader();
 				}
 				else if (cbTyp->SelectedItem->ToString() == "Student")
 				{
-					MessageBox::Show("Student");
+					_cmd->CommandText = "SELECT * FROM [dbo].[student] WHERE personnummer=@personnummer AND lösen = @lösen";
+					_cmd->Parameters->Add(gcnew SqlParameter( "@personnummer", SqlDbType::Char));
+					_cmd->Parameters->Add(gcnew SqlParameter( "@lösen", SqlDbType::Char));
+					_cmd->Parameters["@personnummer"]->Value=personnummer;
+					_cmd->Parameters["@lösen"]->Value=lösen;
+					reader = _cmd->ExecuteReader();
+				}
+				else
+				{
+					return;
 				}
 
 				reader->Read();
