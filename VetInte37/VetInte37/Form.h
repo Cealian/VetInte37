@@ -99,6 +99,8 @@ namespace Forms{
 	private: System::Void Form2_Load(System::Object^  sender, System::EventArgs^  e){
 				MyForm ^ loginForm = gcnew MyForm();
 
+				loginForm->setCmd(cmd);
+
 				loginForm->ShowDialog();
 			 }
 	};

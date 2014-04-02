@@ -1,5 +1,8 @@
 #pragma once
 
+#include "stdafx.h"
+#using <System.Data.Entity.dll>
+
 namespace Forms {
 
 	using namespace System;
@@ -9,18 +12,24 @@ namespace Forms {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	using namespace System::Data::Common;
+	using namespace System::Configuration;
+	using namespace System::Data::SqlClient;
+
 	/// <summary>
 	/// Summary for MyForm
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm(void)
+		MyForm()
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+		}
+		
+		void setCmd(DbCommand ^ cmd)
+		{
+			_cmd = cmd;
 		}
 
 	protected:
@@ -51,6 +60,7 @@ namespace Forms {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
+		DbCommand ^ _cmd;
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
@@ -85,6 +95,7 @@ namespace Forms {
 			// 
 			// cbTyp
 			// 
+			this->cbTyp->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->cbTyp->FormattingEnabled = true;
 			this->cbTyp->Location = System::Drawing::Point(118, 64);
 			this->cbTyp->Name = L"cbTyp";
@@ -126,6 +137,7 @@ namespace Forms {
 			this->btnLogin->TabIndex = 6;
 			this->btnLogin->Text = L"Logga in";
 			this->btnLogin->UseVisualStyleBackColor = true;
+			this->btnLogin->Click += gcnew System::EventHandler(this, &MyForm::btnLogin_Click);
 			// 
 			// MyForm
 			// 
@@ -149,6 +161,48 @@ namespace Forms {
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 
+				 cbTyp->Items->Add("Personal");
+				 cbTyp->Items->Add("Student");
+
 			 }
-	};
+
+			 
+			
+	private: System::Void btnLogin_Click(System::Object^  sender, System::EventArgs^  e) {
+				 
+				String ^ personnummer = txtPersonnummer->Text;
+				String ^ lösen = txtLösen->Text;
+
+				
+				_cmd->CommandText = "SELECT * FROM [dbo].[personal] WHERE personnummer=@personnummer AND lösen = @lösen";
+				_cmd->Parameters->Add(gcnew SqlParameter( "@personnummer", SqlDbType::Char));
+				_cmd->Parameters->Add(gcnew SqlParameter( "@lösen", SqlDbType::Char));
+				_cmd->Parameters["@personnummer"]->Value=personnummer;
+				_cmd->Parameters["@lösen"]->Value=lösen;
+				DbDataReader ^ reader = _cmd->ExecuteReader();
+
+				if (cbTyp->SelectedItem->ToString() == "Personal")
+				{
+					MessageBox::Show("Personal");
+				}
+				else if (cbTyp->SelectedItem->ToString() == "Student")
+				{
+					MessageBox::Show("Student");
+				}
+				else
+				{
+					MessageBox::Show("Inget");
+				}
+				reader->Read();
+
+				if(reader->HasRows)
+				{
+					MessageBox::Show("Inloggad");
+				}
+
+				reader->Close();
+				_cmd->Parameters->Clear();
+			 }
+};
 }
