@@ -165,6 +165,8 @@ namespace Forms {
 				 cbTyp->Items->Add("Personal");
 				 cbTyp->Items->Add("Student");
 
+				 cbTyp->Text = "Personal";
+
 			 }
 
 			 
@@ -190,10 +192,7 @@ namespace Forms {
 				{
 					MessageBox::Show("Student");
 				}
-				else
-				{
-					MessageBox::Show("Inget");
-				}
+
 				reader->Read();
 
 				if(reader->HasRows)
