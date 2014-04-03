@@ -53,7 +53,7 @@ namespace Forms{
 		DbProviderFactory^ fac;
 		DbConnection^ conn;
 		DbCommand^ cmd;
-	private: System::Windows::Forms::MonthCalendar^  monthCalendar1;
+
 
 
 
@@ -83,21 +83,13 @@ namespace Forms{
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->monthCalendar1 = (gcnew System::Windows::Forms::MonthCalendar());
 			this->SuspendLayout();
-			// 
-			// monthCalendar1
-			// 
-			this->monthCalendar1->Location = System::Drawing::Point(120, 93);
-			this->monthCalendar1->Name = L"monthCalendar1";
-			this->monthCalendar1->TabIndex = 0;
 			// 
 			// Form2
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(451, 371);
-			this->Controls->Add(this->monthCalendar1);
 			this->Name = L"Form2";
 			this->Text = L"Form2";
 			this->Load += gcnew System::EventHandler(this, &Form2::Form2_Load);
