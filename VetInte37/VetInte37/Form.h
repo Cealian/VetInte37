@@ -26,6 +26,9 @@ namespace Forms{
 	public ref class Form2 : public System::Windows::Forms::Form
 	{
 	public:
+
+		int ^ _loginState;
+
 		Form2(void)
 		{
 			InitializeComponent();
@@ -54,9 +57,12 @@ namespace Forms{
 		DbConnection^ conn;
 		DbCommand^ cmd;
 	private: System::Windows::Forms::GroupBox^  grpStudent;
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::GroupBox^  gprPersonal;
-	private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::Button^  btnSkrivTentamen;
+
+	private: System::Windows::Forms::GroupBox^  grpPersonal;
+	private: System::Windows::Forms::Button^  btnSkapaTentamen;
+
+
 
 
 
@@ -88,16 +94,16 @@ namespace Forms{
 		void InitializeComponent(void)
 		{
 			this->grpStudent = (gcnew System::Windows::Forms::GroupBox());
-			this->gprPersonal = (gcnew System::Windows::Forms::GroupBox());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->btnSkrivTentamen = (gcnew System::Windows::Forms::Button());
+			this->grpPersonal = (gcnew System::Windows::Forms::GroupBox());
+			this->btnSkapaTentamen = (gcnew System::Windows::Forms::Button());
 			this->grpStudent->SuspendLayout();
-			this->gprPersonal->SuspendLayout();
+			this->grpPersonal->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// grpStudent
 			// 
-			this->grpStudent->Controls->Add(this->button1);
+			this->grpStudent->Controls->Add(this->btnSkrivTentamen);
 			this->grpStudent->Location = System::Drawing::Point(12, 12);
 			this->grpStudent->Name = L"grpStudent";
 			this->grpStudent->Size = System::Drawing::Size(88, 100);
@@ -105,56 +111,63 @@ namespace Forms{
 			this->grpStudent->TabStop = false;
 			this->grpStudent->Text = L"Student";
 			// 
-			// gprPersonal
+			// btnSkrivTentamen
 			// 
-			this->gprPersonal->Controls->Add(this->button2);
-			this->gprPersonal->Location = System::Drawing::Point(106, 12);
-			this->gprPersonal->Name = L"gprPersonal";
-			this->gprPersonal->Size = System::Drawing::Size(89, 100);
-			this->gprPersonal->TabIndex = 0;
-			this->gprPersonal->TabStop = false;
-			this->gprPersonal->Text = L"Personal";
+			this->btnSkrivTentamen->Enabled = false;
+			this->btnSkrivTentamen->Location = System::Drawing::Point(6, 19);
+			this->btnSkrivTentamen->Name = L"btnSkrivTentamen";
+			this->btnSkrivTentamen->Size = System::Drawing::Size(75, 23);
+			this->btnSkrivTentamen->TabIndex = 0;
+			this->btnSkrivTentamen->Text = L"Skriv tenta";
+			this->btnSkrivTentamen->UseVisualStyleBackColor = true;
 			// 
-			// button1
+			// grpPersonal
 			// 
-			this->button1->Location = System::Drawing::Point(6, 19);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"Skriv tenta";
-			this->button1->UseVisualStyleBackColor = true;
+			this->grpPersonal->Controls->Add(this->btnSkapaTentamen);
+			this->grpPersonal->Location = System::Drawing::Point(106, 12);
+			this->grpPersonal->Name = L"grpPersonal";
+			this->grpPersonal->Size = System::Drawing::Size(89, 100);
+			this->grpPersonal->TabIndex = 0;
+			this->grpPersonal->TabStop = false;
+			this->grpPersonal->Text = L"Personal";
 			// 
-			// button2
+			// btnSkapaTentamen
 			// 
-			this->button2->Location = System::Drawing::Point(6, 19);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
-			this->button2->TabIndex = 0;
-			this->button2->Text = L"Skapa tenta";
-			this->button2->UseVisualStyleBackColor = true;
+			this->btnSkapaTentamen->Location = System::Drawing::Point(6, 19);
+			this->btnSkapaTentamen->Name = L"btnSkapaTentamen";
+			this->btnSkapaTentamen->Size = System::Drawing::Size(75, 23);
+			this->btnSkapaTentamen->TabIndex = 0;
+			this->btnSkapaTentamen->Text = L"Skapa tenta";
+			this->btnSkapaTentamen->UseVisualStyleBackColor = true;
 			// 
 			// Form2
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(205, 122);
-			this->Controls->Add(this->gprPersonal);
+			this->Controls->Add(this->grpPersonal);
 			this->Controls->Add(this->grpStudent);
 			this->Name = L"Form2";
 			this->Text = L"Meny";
 			this->Load += gcnew System::EventHandler(this, &Form2::Form2_Load);
 			this->grpStudent->ResumeLayout(false);
-			this->gprPersonal->ResumeLayout(false);
+			this->grpPersonal->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 	private: System::Void Form2_Load(System::Object^  sender, System::EventArgs^  e){
+
+				_loginState = 0;
+
 				MyForm ^ loginForm = gcnew MyForm();
 
-				loginForm->setCmd(cmd);
+				loginForm->setCmd(cmd, _loginState);
 
 				loginForm->ShowDialog();
+
+				
 			 }
-	};
+
+};
 }

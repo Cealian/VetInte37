@@ -27,9 +27,14 @@ namespace Forms {
 			InitializeComponent();
 		}
 		
-		void setCmd(DbCommand ^ cmd)
+		
+		DbCommand ^ _cmd;
+		int ^ _loginState;
+
+		void setCmd(DbCommand ^ cmd, int ^ loginState)
 		{
 			_cmd = cmd;
+			_loginState = loginState;
 		}
 
 	protected:
@@ -60,8 +65,11 @@ namespace Forms {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		DbCommand ^ _cmd;
-		System::ComponentModel::Container ^components;
+
+
+	private: System::Windows::Forms::Button^  btnQuit;
+
+			 System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -77,6 +85,7 @@ namespace Forms {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->btnLogin = (gcnew System::Windows::Forms::Button());
+			this->btnQuit = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// txtPersonnummer
@@ -140,12 +149,26 @@ namespace Forms {
 			this->btnLogin->UseVisualStyleBackColor = true;
 			this->btnLogin->Click += gcnew System::EventHandler(this, &MyForm::btnLogin_Click);
 			// 
+			// btnQuit
+			// 
+			this->btnQuit->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+			this->btnQuit->Location = System::Drawing::Point(194, 91);
+			this->btnQuit->Name = L"btnQuit";
+			this->btnQuit->Size = System::Drawing::Size(75, 23);
+			this->btnQuit->TabIndex = 7;
+			this->btnQuit->Text = L"Avbryt";
+			this->btnQuit->UseVisualStyleBackColor = true;
+			this->btnQuit->Click += gcnew System::EventHandler(this, &MyForm::btnQuit_Click);
+			// 
 			// MyForm
 			// 
 			this->AcceptButton = this->btnLogin;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->CancelButton = this->btnQuit;
 			this->ClientSize = System::Drawing::Size(364, 128);
+			this->ControlBox = false;
+			this->Controls->Add(this->btnQuit);
 			this->Controls->Add(this->btnLogin);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
@@ -154,6 +177,7 @@ namespace Forms {
 			this->Controls->Add(this->txtLösen);
 			this->Controls->Add(this->txtPersonnummer);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->MaximizeBox = false;
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -207,11 +231,23 @@ namespace Forms {
 
 				if(reader->HasRows)
 				{
-					MessageBox::Show("Inloggad");
+					if (cbTyp->SelectedItem->ToString() == "Personal")
+					{
+						_loginState = 1;
+					}
+					else if (cbTyp->SelectedItem->ToString() == "Student")
+					{
+						_loginState = 2;
+					}
+
+					this->Close();
 				}
 
 				reader->Close();
 				_cmd->Parameters->Clear();
 			 }
+private: System::Void btnQuit_Click(System::Object^  sender, System::EventArgs^  e) {
+			 Environment::Exit(0);
+		 }
 };
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include <cliext\vector>
 using namespace System;
