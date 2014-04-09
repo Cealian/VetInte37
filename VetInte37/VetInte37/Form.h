@@ -5,6 +5,7 @@
 	#include"Anställd.h"	
 	#include"Personal.h"
 	#include "Login.h"
+	#include "SkapaTentaForm.h"
 	#include <cliext\vector>
 
 namespace Forms{
@@ -62,22 +63,9 @@ namespace Forms{
 	private: System::Windows::Forms::GroupBox^  grpPersonal;
 	private: System::Windows::Forms::Button^  btnSkapaTentamen;
 
-
-
-
-
-
-
+	/* ----------- */
 	protected: 
-
-
-
-
-
-
-
-
-
+	/* ----------- */
 
 
 	private:
@@ -139,6 +127,7 @@ namespace Forms{
 			this->btnSkapaTentamen->TabIndex = 0;
 			this->btnSkapaTentamen->Text = L"Skapa tenta";
 			this->btnSkapaTentamen->UseVisualStyleBackColor = true;
+			this->btnSkapaTentamen->Click += gcnew System::EventHandler(this, &Form2::btnSkapaTentamen_Click);
 			// 
 			// Form2
 			// 
@@ -165,9 +154,16 @@ namespace Forms{
 				loginForm->setCmd(cmd, _loginState);
 
 				loginForm->ShowDialog();
-
-				
 			 }
 
+private: System::Void btnSkapaTentamen_Click(System::Object^  sender, System::EventArgs^  e) {
+
+			 SkapaTentaForm ^ stForm = gcnew SkapaTentaForm();
+
+			 stForm->setCmd(cmd);
+
+			 stForm->ShowDialog();
+
+		 }
 };
 }
