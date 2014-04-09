@@ -25,6 +25,7 @@ namespace Forms {
 			//
 
 			_frågor = gcnew array<Fråga^>(250);
+			_frågeNo = 1;
 		}
 
 		void setCmd(DbCommand ^ cmd)
@@ -90,6 +91,8 @@ namespace Forms {
 		int _frågeNo;
 		String ^ _examensID;
 		array<Fråga^>^ _frågor;
+	private: System::Windows::Forms::Button^  btnKlar;
+
 
 		/// <summary>
 		/// Required designer variable.
@@ -127,6 +130,7 @@ namespace Forms {
 			this->radSvar3 = (gcnew System::Windows::Forms::RadioButton());
 			this->radSvar4 = (gcnew System::Windows::Forms::RadioButton());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->btnKlar = (gcnew System::Windows::Forms::Button());
 			this->groupBox1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -346,11 +350,22 @@ namespace Forms {
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &SkapaTentaForm::button1_Click);
 			// 
+			// btnKlar
+			// 
+			this->btnKlar->Location = System::Drawing::Point(746, 280);
+			this->btnKlar->Name = L"btnKlar";
+			this->btnKlar->Size = System::Drawing::Size(75, 23);
+			this->btnKlar->TabIndex = 24;
+			this->btnKlar->Text = L"Klar";
+			this->btnKlar->UseVisualStyleBackColor = true;
+			this->btnKlar->Click += gcnew System::EventHandler(this, &SkapaTentaForm::btnKlar_Click);
+			// 
 			// SkapaTentaForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(833, 311);
+			this->Controls->Add(this->btnKlar);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->radSvar4);
 			this->Controls->Add(this->radSvar3);
@@ -386,9 +401,16 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 if (txtID->Text == ""
 				 || txtÄmne->Text == ""
 				 || txtKurskod->Text == ""
-				 || )
+				 || txtPoäng->Text == ""
+				 || txtFråga->Text == ""
+				 || txtSvar1->Text == ""
+				 || txtSvar2->Text == ""
+				 || txtSvar3->Text == ""
+				 || txtSvar4->Text == "")
 			 {
+				 MessageBox::Show("Fyll i allt!");
 
+				 return;
 			 }
 
 			 if (_frågeNo == 1)
@@ -406,8 +428,27 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			{
 				// KLAR NU!
 			}
-			 lblFrågeNo->Text = "Fråga " + _frågeNo + ":";
 
+			sparaFråga();
+
+			 txtFråga->Clear();
+			 txtSvar1->Clear();
+			 txtSvar2->Clear();
+			 txtSvar3->Clear();
+			 txtSvar4->Clear();
+
+			 radSvar1->Checked = true;
+
+			_frågeNo++;
+			 lblFrågeNo->Text = "Fråga " + _frågeNo + ":";
+		 }
+private: System::Void SkapaTentaForm_Load(System::Object^  sender, System::EventArgs^  e) {
+			 _frågeNo = 1;
+		 }
+
+		 void sparaFråga()
+		 {
+			
 			 int rättSvar = 0;
 
 			 if (radSvar1->Checked)
@@ -429,18 +470,29 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 Fråga ^ fråga = gcnew Fråga(_cmd, _frågeNo, _examensID, txtFråga->Text, svar, rättSvar);
 
 			 _frågor[_frågeNo-1] = fråga;
-
-			 txtFråga->Clear();
-			 txtSvar1->Clear();
-			 txtSvar2->Clear();
-			 txtSvar3->Clear();
-			 txtSvar4->Clear();
-			 radSvar1->Checked = true;
-
-			_frågeNo++;
 		 }
-private: System::Void SkapaTentaForm_Load(System::Object^  sender, System::EventArgs^  e) {
-			 _frågeNo = 1;
+
+private: System::Void btnKlar_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if (Forms::DialogResult::Yes == MessageBox::Show("Är du klar med tentamen?", "Klar?", MessageBoxButtons::YesNo, MessageBoxIcon::Question ))
+			 {
+				 sparaFråga();
+				 for (int i = 0; i < _frågeNo; i++)
+				 {
+					 _frågor[i]->addToDb();
+				 }
+
+				_cmd->CommandText = "INSERT INTO [dbo].[tentamen] VALUES (@examensID ,@ämne, @poäng, @kurskod)";
+				_cmd->Parameters->Add(gcnew SqlParameter("@examensID", SqlDbType::Char));
+				_cmd->Parameters["@examensID"]->Value = _examensID;
+				_cmd->Parameters->Add(gcnew SqlParameter("@ämne", SqlDbType::Char));
+				_cmd->Parameters["@ämne"]->Value = txtÄmne->Text;
+				_cmd->Parameters->Add(gcnew SqlParameter("@poäng", SqlDbType::Int));
+				_cmd->Parameters["@poäng"]->Value = txtPoäng->Text;
+				_cmd->Parameters->Add(gcnew SqlParameter("@kurskod", SqlDbType::Char));
+				_cmd->Parameters["@kurskod"]->Value = txtKurskod->Text;
+				_cmd->ExecuteNonQuery();
+				_cmd->Parameters->Clear();
+			 }
 		 }
 };
 }

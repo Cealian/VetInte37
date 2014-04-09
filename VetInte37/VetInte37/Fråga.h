@@ -29,7 +29,34 @@ public:
 
 	void addToDb()
 	{
-		
+
+		_cmd->CommandText = "INSERT INTO [dbo].[frågor] VALUES (@frågeNo ,@examensID, @text, @rättsvar)";
+		_cmd->Parameters->Add(gcnew SqlParameter("@frågeNo", SqlDbType::Int));
+		_cmd->Parameters["@frågeNo"]->Value = _frågeNo;
+		_cmd->Parameters->Add(gcnew SqlParameter("@examensID", SqlDbType::Char));
+		_cmd->Parameters["@examensID"]->Value = _examensID;
+		_cmd->Parameters->Add(gcnew SqlParameter("@text", SqlDbType::Char));
+		_cmd->Parameters["@text"]->Value = _text;
+		_cmd->Parameters->Add(gcnew SqlParameter("@rättsvar", SqlDbType::Int));
+		_cmd->Parameters["@rättsvar"]->Value = _rättSvar;
+		_cmd->ExecuteNonQuery();
+		_cmd->Parameters->Clear();
+
+		for (int i = 0; i < _svar->Length; i++)
+		{
+			_cmd->CommandText = "INSERT INTO [dbo].[svar] VALUES (@svarsNo ,@frågeNo, @examensID, @text)";
+			_cmd->Parameters->Add(gcnew SqlParameter("@svarsNo", SqlDbType::Int));
+			_cmd->Parameters["@svarsNo"]->Value = i+1;
+			_cmd->Parameters->Add(gcnew SqlParameter("@frågeNo", SqlDbType::Int));
+			_cmd->Parameters["@frågeNo"]->Value = _frågeNo;
+			_cmd->Parameters->Add(gcnew SqlParameter("@examensID", SqlDbType::Char));
+			_cmd->Parameters["@examensID"]->Value = _examensID;
+			_cmd->Parameters->Add(gcnew SqlParameter("@text", SqlDbType::Char));
+			_cmd->Parameters["@text"]->Value = _svar[i];
+			_cmd->ExecuteNonQuery();
+			_cmd->Parameters->Clear();
+		}
+
 	}
 
 private:
