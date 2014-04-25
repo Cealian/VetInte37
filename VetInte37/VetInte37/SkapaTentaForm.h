@@ -346,12 +346,13 @@ namespace Forms {
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 23;
-			this->button1->Text = L"Nästa fråga";
+			this->button1->Text = L"Spara fråga";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &SkapaTentaForm::button1_Click);
 			// 
 			// btnKlar
 			// 
+			this->btnKlar->Enabled = false;
 			this->btnKlar->Location = System::Drawing::Point(746, 280);
 			this->btnKlar->Name = L"btnKlar";
 			this->btnKlar->Size = System::Drawing::Size(75, 23);
@@ -412,6 +413,8 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 
 				 return;
 			 }
+
+			 btnKlar->Enabled = true;
 
 			 if (_frågeNo == 1)
 			 {
@@ -492,6 +495,10 @@ private: System::Void btnKlar_Click(System::Object^  sender, System::EventArgs^ 
 				_cmd->Parameters["@kurskod"]->Value = txtKurskod->Text;
 				_cmd->ExecuteNonQuery();
 				_cmd->Parameters->Clear();
+
+				this->Close();
+
+				MessageBox::Show("Tentamen skapad.");
 			 }
 		 }
 };

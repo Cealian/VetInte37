@@ -6,6 +6,7 @@
 	#include"Personal.h"
 	#include "Login.h"
 	#include "SkapaTentaForm.h"
+	#include "valjTentamen.h";
 	#include <cliext\vector>
 
 namespace Forms{
@@ -101,13 +102,13 @@ namespace Forms{
 			// 
 			// btnSkrivTentamen
 			// 
-			this->btnSkrivTentamen->Enabled = false;
 			this->btnSkrivTentamen->Location = System::Drawing::Point(6, 19);
 			this->btnSkrivTentamen->Name = L"btnSkrivTentamen";
 			this->btnSkrivTentamen->Size = System::Drawing::Size(75, 23);
 			this->btnSkrivTentamen->TabIndex = 0;
 			this->btnSkrivTentamen->Text = L"Skriv tenta";
 			this->btnSkrivTentamen->UseVisualStyleBackColor = true;
+			this->btnSkrivTentamen->Click += gcnew System::EventHandler(this, &Form2::btnSkrivTentamen_Click);
 			// 
 			// grpPersonal
 			// 
@@ -163,6 +164,15 @@ private: System::Void btnSkapaTentamen_Click(System::Object^  sender, System::Ev
 			 stForm->setCmd(cmd);
 
 			 stForm->ShowDialog();
+
+		 }
+private: System::Void btnSkrivTentamen_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+			 väljTentamen ^ vtForm = gcnew väljTentamen();
+
+			 vtForm->setCmd(cmd);
+
+			 vtForm->ShowDialog();
 
 		 }
 };

@@ -17,9 +17,7 @@ using namespace cliext;
 	using namespace System::Data::SqlClient;
 
 
-	//Hejsan
-
-
+ 
 ref class Anställd
 {
 
