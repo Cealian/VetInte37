@@ -136,6 +136,8 @@ namespace Forms {
 				}
 
 				lbTents->SelectedIndex = 0;
+
+				reader->Close();
 			 }
 	};
 }

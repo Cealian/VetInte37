@@ -470,7 +470,9 @@ private: System::Void SkapaTentaForm_Load(System::Object^  sender, System::Event
 			 svar[2] = txtSvar3->Text;
 			 svar[3] = txtSvar4->Text;
 
-			 Fråga ^ fråga = gcnew Fråga(_cmd, _frågeNo, _examensID, txtFråga->Text, svar, rättSvar);
+			 Fråga ^ fråga = gcnew Fråga();
+
+			 fråga->setDetails(_cmd, _frågeNo, _examensID, txtFråga->Text, svar, rättSvar);
 
 			 _frågor[_frågeNo-1] = fråga;
 		 }

@@ -17,7 +17,8 @@ using namespace System::Data::SqlClient;
 ref class Fråga 
 {
 public:
-	Fråga (DbCommand ^ cmd, int frågeNo, String ^ examensID, String ^ text, array<String^>^ svar, int rättSvar)
+	/* ----- Set Q ----- */
+	void setDetails(DbCommand ^ cmd, int frågeNo, String ^ examensID, String ^ text, array<String^>^ svar, int rättSvar)
 	{
 		_cmd = cmd;
 		_frågeNo = frågeNo;
@@ -58,10 +59,100 @@ public:
 		}
 		
 	}
-	string GetQuestion(int fråga)
-		{
-			_cmd->CommandText = "SELECT * FROM [dbo].[svar] VALUES (@svarsNo, @frågeNo ,@examensID, @texts";
-		}
+
+	/* ----- Get Q ----- */
+
+	
+	void setDetails(DbCommand ^ cmd, int frågeNo, String ^ examensID)
+	{
+		_cmd = cmd;
+		_frågeNo = frågeNo;
+		_examensID = examensID;
+
+		getQuestion();
+
+	}
+
+	String ^ getText()
+	{
+		return _text;
+	}
+	
+	String ^getAnswer(int svarsNo)
+	{
+		_cmd->CommandText="SELECT * FROM [dbo].[svar] WHERE frågeNo=@frågeNo AND examensID = @examensID AND svarsNo = @svarsNo";
+		
+		_cmd->Parameters->Add(gcnew SqlParameter("@frågeNo", SqlDbType::Int));
+		_cmd->Parameters["@frågeNo"]->Value=_frågeNo;
+
+		_cmd->Parameters->Add(gcnew SqlParameter("@examensID", SqlDbType::Char));
+		_cmd->Parameters["@examensID"]->Value=_examensID;
+
+		_cmd->Parameters->Add(gcnew SqlParameter("@svarsNo", SqlDbType::Int));
+		_cmd->Parameters["@svarsNo"]->Value=svarsNo;
+
+		DbDataReader^ reader = _cmd->ExecuteReader();
+
+		reader->Read();
+
+		String ^text = reader->GetString(3);
+
+		reader->Close();
+		_cmd->Parameters->Clear();
+
+		return text;
+	}
+
+	int getRättSvar()
+	{
+		return _rättSvar;
+	}
+
+	int noOfQuestions()
+	{
+		
+		_cmd->CommandText="SELECT COUNT(*) FROM [dbo].[frågor] WHERE examensID = @examensID";
+		
+		_cmd->Parameters->Add(gcnew SqlParameter("@frågeNo", SqlDbType::Int));
+		_cmd->Parameters["@frågeNo"]->Value=_frågeNo;
+
+		_cmd->Parameters->Add(gcnew SqlParameter("@examensID", SqlDbType::Char));
+		_cmd->Parameters["@examensID"]->Value=_examensID;
+
+		DbDataReader^ reader = _cmd->ExecuteReader();
+
+		reader->Read();
+
+		int antal = reader->GetInt32(0);
+
+		reader->Close();
+		_cmd->Parameters->Clear();
+
+		return antal;
+	}
+
+private: void getQuestion()
+	{
+		_cmd->CommandText="SELECT * FROM [dbo].[frågor] WHERE frågeNo=@frågeNo AND examensID = @examensID";
+		
+		_cmd->Parameters->Add(gcnew SqlParameter("@frågeNo", SqlDbType::Int));
+		_cmd->Parameters["@frågeNo"]->Value=_frågeNo;
+
+		_cmd->Parameters->Add(gcnew SqlParameter("@examensID", SqlDbType::Char));
+		_cmd->Parameters["@examensID"]->Value=_examensID;
+
+		DbDataReader^ reader = _cmd->ExecuteReader();
+
+		reader->Read();
+		String ^returner = reader->GetString(1);
+
+		_text = reader->GetString(2);
+		_rättSvar = reader->GetInt32(3);
+
+		reader->Close();
+		_cmd->Parameters->Clear();
+	}
+
 private:
 	DbCommand ^ _cmd;
 	int _frågeNo;

@@ -1,4 +1,5 @@
 #pragma once
+#include "Fråga.h";
 
 namespace Forms{
 
@@ -18,16 +19,15 @@ namespace Forms{
 	public ref class skrivTentaForm : public System::Windows::Forms::Form
 	{
 	public:
+
 		
-		DbCommand ^ _cmd;
-		String ^ _examensID;
-		String ^ _ämne;
-		String ^ _poäng;
-		String ^ _kurskod;
 		
 		skrivTentaForm(void)
 		{
 			InitializeComponent();
+
+			_antalRätt = 0;
+
 			//
 			//TODO: Add the constructor code here
 			//
@@ -47,11 +47,23 @@ namespace Forms{
 				+"\nÄmne: "+_ämne
 				+"\nPoäng: "+_poäng
 				+"\nKurskod: "+_kurskod;
-			
 
+			_fråga = gcnew Fråga();
+			_frågeNo = 1;
+
+			showQuestion();
 		}
 
-
+		void showQuestion()
+		{
+			_fråga->setDetails(_cmd,_frågeNo,_examensID);
+			lblQuestion->Text = _fråga->getText();
+			
+			radA1->Text = _fråga->getAnswer(1);
+			radA2->Text = _fråga->getAnswer(2);
+			radA3->Text = _fråga->getAnswer(3);
+			radA4->Text = _fråga->getAnswer(4);
+		}
 
 	protected:
 		/// <summary>
@@ -81,9 +93,16 @@ namespace Forms{
 
 
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
+
+		DbCommand ^ _cmd;
+		String ^ _examensID;
+		String ^ _ämne;
+		String ^ _poäng;
+		String ^ _kurskod;
+		Fråga ^ _fråga;
+		int _frågeNo;
+		int _antalRätt;
+
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
@@ -171,6 +190,7 @@ namespace Forms{
 			this->btnNext->TabIndex = 6;
 			this->btnNext->Text = L"Nästa";
 			this->btnNext->UseVisualStyleBackColor = true;
+			this->btnNext->Click += gcnew System::EventHandler(this, &skrivTentaForm::btnNext_Click);
 			// 
 			// skrivTentaForm
 			// 
@@ -196,5 +216,44 @@ namespace Forms{
 			 {
 
 			 }
+private: System::Void btnNext_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if ((_fråga->getRättSvar() == 1 && radA1->Checked) ||
+				 (_fråga->getRättSvar() == 2 && radA2->Checked) ||
+				 (_fråga->getRättSvar() == 3 && radA3->Checked) ||
+				 (_fråga->getRättSvar() == 4 && radA4->Checked))
+			 {
+				 _antalRätt++;
+			 }
+
+			 if (_fråga->noOfQuestions()>_frågeNo)
+			 {
+				 if (_fråga->noOfQuestions() == _frågeNo-1)
+				 {
+					 btnNext->Text == "Klar";
+				 }
+				 _frågeNo++;
+				 showQuestion();
+			 }
+			 else
+			 {
+				 _frågeNo++;
+
+				 String ^ resultat = "Inte godkänt...";
+
+				 int minGodkänt = (_frågeNo*0.4);
+
+				 if (_antalRätt >= minGodkänt)
+				 {
+					 resultat = "Godkänt!";
+				 }
+
+				 MessageBox::Show(resultat + "\n"
+					 + "Antal rätt: " + _antalRätt + "\n"
+					 + "Antal frågor: " + _frågeNo + "\n"
+					 + "Godkänt: " + minGodkänt);
+			 }
+
+
+		 }
 };
 }
