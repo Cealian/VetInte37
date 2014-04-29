@@ -56,9 +56,12 @@ public:
 			_cmd->ExecuteNonQuery();
 			_cmd->Parameters->Clear();
 		}
-
+		
 	}
-
+	string GetQuestion(int fråga)
+		{
+			_cmd->CommandText = "SELECT * FROM [dbo].[svar] VALUES (@svarsNo, @frågeNo ,@examensID, @texts";
+		}
 private:
 	DbCommand ^ _cmd;
 	int _frågeNo;

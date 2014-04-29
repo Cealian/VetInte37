@@ -41,7 +41,6 @@ namespace Forms{
 			cmd = fac->CreateCommand();
 			cmd->Connection = conn;
 
-
 		}
 
 	protected:
