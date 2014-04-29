@@ -38,11 +38,15 @@ namespace Forms{
 		{
 			_cmd = cmd;
 
-			
-			lblDetails->Text = "ExamensID: "+examenString->Split('-')[0]->ToString()->Trim()
-				+"\nÄmne: "+examenString->Split('-')[1]->ToString()->Trim()
-				+"\nPoäng: "+examenString->Split('-')[2]->ToString()->Trim()
-				+"\nKurskod: "+examenString->Split('-')	->ToString()->Trim();
+			_examensID = examenString->Split('-')[0]->ToString()->Trim();
+			_ämne = examenString->Split('-')[1]->ToString()->Trim();
+			_poäng = examenString->Split('-')[2]->ToString()->Trim();
+			_kurskod = examenString->Split('-')[3]->ToString()->Trim();
+
+			lblDetails->Text = "ExamensID: "+_examensID
+				+"\nÄmne: "+_ämne
+				+"\nPoäng: "+_poäng
+				+"\nKurskod: "+_kurskod;
 			
 
 		}
