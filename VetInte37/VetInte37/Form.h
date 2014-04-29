@@ -28,7 +28,7 @@ namespace Forms{
 	{
 	public:
 
-		int ^ _loginState;
+		 int _loginState;
 
 		Form2(void)
 		{
@@ -108,6 +108,7 @@ namespace Forms{
 			this->btnSkrivTentamen->TabIndex = 0;
 			this->btnSkrivTentamen->Text = L"Skriv tenta";
 			this->btnSkrivTentamen->UseVisualStyleBackColor = true;
+			this->btnSkrivTentamen->Click += gcnew System::EventHandler(this, &Form2::btnSkrivTentamen_Click);
 			// 
 			// grpPersonal
 			// 
@@ -121,6 +122,7 @@ namespace Forms{
 			// 
 			// btnSkapaTentamen
 			// 
+			this->btnSkapaTentamen->Enabled = false;
 			this->btnSkapaTentamen->Location = System::Drawing::Point(6, 19);
 			this->btnSkapaTentamen->Name = L"btnSkapaTentamen";
 			this->btnSkapaTentamen->Size = System::Drawing::Size(75, 23);
@@ -147,13 +149,24 @@ namespace Forms{
 #pragma endregion
 	private: System::Void Form2_Load(System::Object^  sender, System::EventArgs^  e){
 
-				_loginState = 0;
+				_loginState = 0; 
 
 				MyForm ^ loginForm = gcnew MyForm();
 
-				loginForm->setCmd(cmd, _loginState);
+				loginForm->setCmd(cmd);
 
 				loginForm->ShowDialog();
+
+				_loginState = loginForm->_loginState;
+
+				if (_loginState == 1)
+				{
+					btnSkapaTentamen->Enabled = true;
+				}
+				else if (_loginState)
+				{
+					btnSkrivTentamen->Enabled = true;
+				}
 			 }
 
 private: System::Void btnSkapaTentamen_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -165,5 +178,10 @@ private: System::Void btnSkapaTentamen_Click(System::Object^  sender, System::Ev
 			 stForm->ShowDialog();
 
 		 }
+private: System::Void btnSkrivTentamen_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		 }
+
+
 };
 }

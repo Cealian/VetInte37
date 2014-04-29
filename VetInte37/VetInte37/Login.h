@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+
 #using <System.Data.Entity.dll>
 
 namespace Forms {
@@ -29,12 +30,11 @@ namespace Forms {
 		
 		
 		DbCommand ^ _cmd;
-		int ^ _loginState;
+		int _loginState;
 
-		void setCmd(DbCommand ^ cmd, int ^ loginState)
+		void setCmd(DbCommand ^ cmd)
 		{
 			_cmd = cmd;
-			_loginState = loginState;
 		}
 
 	protected:
