@@ -192,7 +192,9 @@ namespace Forms{
 
 		}
 #pragma endregion
-	private: System::Void skrivTentaForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	private: System::Void skrivTentaForm_Load(System::Object^  sender, System::EventArgs^  e) 
+			 {
+
 			 }
 };
 }
