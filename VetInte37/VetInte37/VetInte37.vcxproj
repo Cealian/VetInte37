@@ -95,6 +95,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Form.cpp" />
+    <ClCompile Include="väljTentamen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anställd.h" />
@@ -115,6 +116,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="valjTentamen.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -137,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SkapaTentaForm.resx">
       <DependentUpon>SkapaTentaForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="valjTentamen.resx">
+      <DependentUpon>valjTentamen.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

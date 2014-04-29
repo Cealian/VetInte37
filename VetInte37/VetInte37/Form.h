@@ -6,6 +6,7 @@
 	#include"Personal.h"
 	#include "Login.h"
 	#include "SkapaTentaForm.h"
+	#include "valjTentamen.h";
 	#include <cliext\vector>
 
 namespace Forms{
@@ -101,7 +102,6 @@ namespace Forms{
 			// 
 			// btnSkrivTentamen
 			// 
-			this->btnSkrivTentamen->Enabled = false;
 			this->btnSkrivTentamen->Location = System::Drawing::Point(6, 19);
 			this->btnSkrivTentamen->Name = L"btnSkrivTentamen";
 			this->btnSkrivTentamen->Size = System::Drawing::Size(75, 23);
@@ -149,7 +149,7 @@ namespace Forms{
 #pragma endregion
 	private: System::Void Form2_Load(System::Object^  sender, System::EventArgs^  e){
 
-				_loginState = 0; 
+				_loginState = 0;
 
 				MyForm ^ loginForm = gcnew MyForm();
 
@@ -179,9 +179,13 @@ private: System::Void btnSkapaTentamen_Click(System::Object^  sender, System::Ev
 
 		 }
 private: System::Void btnSkrivTentamen_Click(System::Object^  sender, System::EventArgs^  e) {
+			 
+			 väljTentamen ^ vtForm = gcnew väljTentamen();
+
+			 vtForm->setCmd(cmd);
+
+			 vtForm->ShowDialog();
 
 		 }
-
-
 };
 }
