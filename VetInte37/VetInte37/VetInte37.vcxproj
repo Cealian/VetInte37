@@ -90,6 +90,7 @@
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="MyForm1.cpp" />
     <ClCompile Include="SkapaTentaForm.cpp" />
+    <ClCompile Include="skrivTentaForm.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -113,6 +114,9 @@
     <ClInclude Include="Jobb.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SkapaTentaForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="skrivTentaForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
@@ -141,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SkapaTentaForm.resx">
       <DependentUpon>SkapaTentaForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="skrivTentaForm.resx">
+      <DependentUpon>skrivTentaForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="valjTentamen.resx">
       <DependentUpon>valjTentamen.h</DependentUpon>

@@ -39,6 +39,9 @@
     <ClCompile Include="väljTentamen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="skrivTentaForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -74,6 +77,9 @@
     <ClInclude Include="valjTentamen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="skrivTentaForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -93,6 +99,12 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="SkapaTentaForm.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm1.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="valjTentamen.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>

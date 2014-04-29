@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "skrivTentaForm.h"
 
 namespace Forms {
 
@@ -102,7 +103,18 @@ namespace Forms {
 #pragma endregion
 	private: System::Void btnChoose_Click(System::Object^  sender, System::EventArgs^  e) {
 
+				 skrivTentaForm ^stForm = gcnew skrivTentaForm();
+
+				 String ^ examenString = lbTents->SelectedItem->ToString();
+				 
+				 stForm->setVars(_cmd, examenString);
+
+				 stForm->ShowDialog();
 			 }
+
+
+
+
 	private: System::Void väljTentamen_Load(System::Object^  sender, System::EventArgs^  e) {
 				_cmd->CommandText="SELECT * FROM [dbo].[tentamen]";
 				DbDataReader^ reader = _cmd->ExecuteReader();
@@ -120,8 +132,10 @@ namespace Forms {
 					poäng = reader->GetInt32(2);
 					kurskod= reader->GetString(3)->Trim();
 
-					lbTents->Items->Add(examensID + "\tÄmne: " + ämne + "\tPoäng: " + poäng + "\tKurskod: " + kurskod);
+					lbTents->Items->Add(examensID + " - " + ämne + " - " + poäng + " - " + kurskod);
 				}
+
+				lbTents->SelectedIndex = 0;
 			 }
 	};
 }
