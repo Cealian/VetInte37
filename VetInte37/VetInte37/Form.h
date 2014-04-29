@@ -102,6 +102,7 @@ namespace Forms{
 			// 
 			// btnSkrivTentamen
 			// 
+			this->btnSkrivTentamen->Enabled = false;
 			this->btnSkrivTentamen->Location = System::Drawing::Point(6, 19);
 			this->btnSkrivTentamen->Name = L"btnSkrivTentamen";
 			this->btnSkrivTentamen->Size = System::Drawing::Size(75, 23);
@@ -163,9 +164,13 @@ namespace Forms{
 				{
 					btnSkapaTentamen->Enabled = true;
 				}
-				else if (_loginState)
+				else if (_loginState == 2)
 				{
 					btnSkrivTentamen->Enabled = true;
+				}
+				else
+				{
+					Environment::Exit(0);
 				}
 			 }
 
