@@ -37,19 +37,14 @@ namespace Forms{
 		void setVars(DbCommand ^ cmd, String ^ examenString)
 		{
 			_cmd = cmd;
+
+			
+			lblDetails->Text = "ExamensID: "+examenString->Split('-')[0]->ToString()->Trim()
+				+"\nÄmne: "+examenString->Split('-')[1]->ToString()->Trim()
+				+"\nPoäng: "+examenString->Split('-')[2]->ToString()->Trim()
+				+"\nKurskod: "+examenString->Split('-')	->ToString()->Trim();
 			
 
-			for each (String ^tent in examenString->Split('-'))
-			{
-				lblDetails->Text += tent->Trim() + "\n";
-			}
-
-			/*_examensID = examenString->Split(' - ')[0];
-			_ämne = examenString->Split(' - ')[1];
-			_poäng = examenString->Split(' - ')[2];
-			_kurskod = examenString->Split(' - ')[3];*/
-
-			MessageBox::Show(examenString);
 		}
 
 
